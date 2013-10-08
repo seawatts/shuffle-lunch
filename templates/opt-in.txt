@@ -1,0 +1,15 @@
+Subject: You're in for shuffle lunch {{pdate}}
+
+Howdy! This is your reminder email that you're opted-in for the shuffle lunches every other Thursday. (When I don't screw up and miss one).
+
+You're opted-in, so you get the idea:
+• If you want out, send me an email by 11:59pm Tuesday
+• You've entered in the past, so I'll assume you're in unless you say otherwise
+• I pick random teams of 4-6 members
+• I'll send you an email by 11am Wednesday
+
+Teams are randomly selected for each lunch.
+
+*If you don't opt out, I will put you on a team.*
+
+Please email me if you want out of the shuffle lunch next Thursday, {{pdate}}.
