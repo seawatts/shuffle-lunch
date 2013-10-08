@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-
 # segment entries into teams of 4 to 6 members
 def team_up(entries)
 	n = entries.length

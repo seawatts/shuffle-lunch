@@ -1,3 +1,6 @@
+Lunch Shuffler
+--------------
+
 ok, so we do shuffle lunch every other thursday. This has gotten a bit complicated, so here's the deal.
 
 we've got a bunch of different notification groups:
