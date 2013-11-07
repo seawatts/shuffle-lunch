@@ -19,6 +19,6 @@ So we need two templates notify & opt-in. These are stored in the `templates` di
 
 From responses to those emails, we create a list of people who are in for the current lunch. Pipe that through the shuffler:
 
-  bin/shuffler < current-lunch-emails.txt
+    bin/shuffler < current-lunch-emails.txt
 
 It will split the folks into teams of 4-6 members. Have fun!
