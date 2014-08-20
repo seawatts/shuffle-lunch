@@ -1,0 +1,13 @@
+[
+  {
+    "email": {
+      "subject": "Your shuffle lunch team",
+      "fromEmail": "shuffle-lunch@simplymeasured.com",
+      "fromName": "Shuffle Lunch",
+      "template": "shuffle_data/email_templates/shuffle-lunch-template.txt"
+    },
+    "groupSize": 5,
+    "calenderGroupAlias": "all@simplymeasured.com",
+    "recurringEventId": "nn06htjcggc2g55fktqmivssf8"
+  }
+]
