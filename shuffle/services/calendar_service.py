@@ -2,21 +2,21 @@ from datetime import datetime
 from shuffle.models.user_model import UserModel
 
 
-class CalenderService:
+class CalendarService:
     def __init__(self, google_api_service):
-        self.__google_calender_api = google_api_service.calender
+        self.__google_calendar_api = google_api_service.calendar
         self.__google_admin_api = google_api_service.admin
 
-    def get_all_accepted_attendees(self, recurring_event_id, calender_group_alias):
+    def get_all_accepted_attendees(self, recurring_event_id, calendar_group_alias):
         all_accepted = []
-        users = self.__google_admin_api.members().list(groupKey=calender_group_alias).execute()
+        users = self.__google_admin_api.members().list(groupKey=calendar_group_alias).execute()
 
         # TODO: Loop through all the emails in the 'all' alias and get each event to see if they have accepted
         for user in users["members"]:
             # event_id = self.__compose_event_id(recurring_event_id)
             user_email = user["email"]
-            event_id = recurring_event_id + "_" + "20140828T190000Z"
-            event = self.__google_calender_api.events().get(calendarId=user_email, eventId=event_id).execute()
+            event_id = recurring_event_id + "_" + "20140814T190000Z"
+            event = self.__google_calendar_api.events().get(calendarId=user_email, eventId=event_id).execute()
             # If attendees is not present then the user has deleted the event from their calendar
             if "attendees" not in event:
                 continue

@@ -10,8 +10,7 @@ from shuffle.config import config
 
 class GoogleApiService:
     def __init__(self, authenticate_now=True):
-        self.calender = None
-        self.gmail = None
+        self.calendar = None
         self.admin = None
 
         if authenticate_now is False:
@@ -33,15 +32,11 @@ class GoogleApiService:
         http = httplib2.Http()
         http = credentials.authorize(http)
 
-        self.set_calender_api(http)
-        self.set_gmail_api(http)
+        self.set_calendar_api(http)
         self.set_admin_api(http)
 
-    def set_calender_api(self, http):
-        self.calender = discovery.build(config.CALENDER_API_NAME, config.CALENDER_API_VERSION, http=http)
-
-    def set_gmail_api(self, http):
-        self.gmail = discovery.build(config.GMAIL_API_NAME, config.GMAIL_API_VERSION, http=http)
+    def set_calendar_api(self, http):
+        self.calendar = discovery.build(config.CALENDAR_API_NAME, config.CALENDAR_API_VERSION, http=http)
 
     def set_admin_api(self, http):
         self.admin = discovery.build(config.ADMIN_API_NAME, config.ADMIN_API_VERSION, http=http)

@@ -6,7 +6,7 @@ class GroupModel:
         return self.members
 
     def __str__(self):
-        return len(self.members)
+        return str(len(self.members))
 
     def __len__(self):
         return len(self.members)

@@ -4,10 +4,10 @@
       "subject": "Your shuffle lunch team",
       "fromEmail": "shuffle-lunch@simplymeasured.com",
       "fromName": "Shuffle Lunch",
-      "template": "shuffle_data/email_templates/shuffle-lunch-template.txt"
+      "template": "shuffle_data/email_templates/shuffle_lunch_template.txt"
     },
     "groupSize": 5,
-    "calenderGroupAlias": "all@simplymeasured.com",
-    "recurringEventId": "nn06htjcggc2g55fktqmivssf8"
+    "calendarGroupAlias": "all@simplymeasured.com",
+    "recurringEventId": "k3v5q8ion1adkil0fjl4nidtt4"
   }
 ]

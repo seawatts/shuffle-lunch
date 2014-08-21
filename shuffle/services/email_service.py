@@ -1,24 +1,26 @@
-import base64
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from apiclient import errors
 import os
+
+from mandrill import Mandrill, Error
+
 from shuffle.config import config
 
 
 class EmailService:
-    def __init__(self, google_api_service):
-        self.__google_email_api = google_api_service.gmail
+    def __init__(self):
+        self.__email_api = Mandrill(config.MANDRILL_API_KEY)
 
     def send_emails_to_groups(self, randomized_groups, email_from, email_subject, email_body):
         for group in randomized_groups:
             recipients = []
             for user in group.get_members():
-                recipients.append(user.get_email())
+                recipients.append({
+                    "email": user.get_email(),
+                    "type": "to"
+                })
 
             message = self.__create_message(email_from, recipients, email_subject, email_body)
             # By sending from 'me' it will send the message as the currently authenticated user
-            self.__send_message(email_from, message)
+            self.__send_message(message)
 
     def send_emails_to_groups_with_template(self, randomized_groups, email_from, email_subject, email_template_file):
         self.send_emails_to_groups(randomized_groups, email_from, email_subject, self.__create_message_body(email_template_file))
@@ -43,14 +45,16 @@ class EmailService:
         Returns:
           An object containing a base64 encoded email object.
         """
-        message = MIMEText(message_text)
-        for recipient in recipients:
-            message.add_header("to", recipient)
-        message['from'] = sender
-        message['subject'] = subject
-        return {'raw': base64.urlsafe_b64encode(message.as_string())}
+        message = {
+            "to": recipients,
+            "from_email": sender,
+            "subject": subject,
+            "text": message_text
+        }
 
-    def __send_message(self, user_id, message):
+        return message
+
+    def __send_message(self, message):
         """Send an email message.
 
         Args:
@@ -63,10 +67,8 @@ class EmailService:
           Sent Message.
         """
         try:
-            message = (self.__google_email_api.users().messages().send(userId=user_id, body=message)
-                       .execute())
-            print('Message Id: %s' % message['id'])
+            message = self.__email_api.messages.send(message=message)
             return message
-        except errors.HttpError as error:
+        except Error as error:
             print('An error occurred: %s' % error)
             raise error
