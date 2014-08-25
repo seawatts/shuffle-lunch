@@ -10,8 +10,7 @@ class CalendarService:
         self.__google_admin_api = google_api_service.admin
 
     def get_all_accepted_attendees(self, recurring_event_id, calendar_group_alias):
-        # event_id = self.__compose_event_id(recurring_event_id)
-        event_id = recurring_event_id
+        event_id = self.__compose_event_id(recurring_event_id)
         logging.info("Getting all accepted users from event: " + event_id)
         all_accepted = []
         try:
