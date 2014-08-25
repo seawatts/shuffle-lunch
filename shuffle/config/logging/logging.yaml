@@ -31,6 +31,9 @@ loggers:
     oauth2client:
             level: ERROR
             handlers: [console, syslog]
+    mandrill:
+            level: ERROR
+            handlers: [console, syslog]
 
 root:
     level: INFO

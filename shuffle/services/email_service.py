@@ -73,7 +73,7 @@ class EmailService:
         Returns:
           Sent Message.
         """
-        logging.debug("Sending message to " + message["to"])
+        logging.debug("Sending message")
         try:
             message = self.__email_api.messages.send(message=message)
             return message
