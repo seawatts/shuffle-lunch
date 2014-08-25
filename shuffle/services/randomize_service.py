@@ -1,3 +1,4 @@
+import logging
 import random
 
 from shuffle.models.group_model import GroupModel
@@ -9,6 +10,7 @@ class RandomizeService:
 
     @staticmethod
     def create_randomize_groups(users, group_size):
+        logging.info("Randomizing " + str(len(users)) + " users into groups of " + str(group_size))
         groups = []
 
         # Create copy of users so that we don't modify the original copy
@@ -36,6 +38,7 @@ class RandomizeService:
                 groups.append(GroupModel(group_members))
 
         # RandomizeService.__write_groups_to_file(groups)
+        logging.info("Created " + str(len(groups)) + " groups")
         return groups
 
     #

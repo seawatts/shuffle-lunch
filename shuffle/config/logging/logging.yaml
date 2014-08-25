@@ -16,12 +16,12 @@ handlers:
 
     syslog:
         class: logging.handlers.SysLogHandler
-        level: INFO
+        level: DEBUG
         formatter: syslog
         facility: local0
         address: "/dev/log"
 
 root:
-    level: INFO
+    level: DEBUG
     handlers: [console, syslog]
 ...

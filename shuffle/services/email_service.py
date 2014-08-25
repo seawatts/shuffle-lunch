@@ -1,3 +1,4 @@
+import logging
 import os
 
 from mandrill import Mandrill, Error
@@ -10,6 +11,7 @@ class EmailService:
         self.__email_api = Mandrill(config.MANDRILL_API_KEY)
 
     def send_emails_to_groups(self, randomized_groups, email_from, email_subject, email_body):
+        logging.info("Emailing groups")
         for group in randomized_groups:
             recipients = []
             for user in group.get_members():
@@ -66,6 +68,7 @@ class EmailService:
         Returns:
           Sent Message.
         """
+        logging.debug("Sending message to " + message["to"])
         try:
             message = self.__email_api.messages.send(message=message)
             return message

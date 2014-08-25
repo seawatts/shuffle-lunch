@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 from oauth2client import client
@@ -43,4 +44,5 @@ class ShuffleService:
 
     def execute(self):
         for shuffle in self.__shuffle_models:
+            logging.info("Executing shuffle lunch: " + shuffle.name)
             self.__execute_shuffle(shuffle)

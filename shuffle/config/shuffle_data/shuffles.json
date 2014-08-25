@@ -1,5 +1,6 @@
 [
   {
+    "name": "Shuffle Lunch",
     "email": {
       "subject": "Your shuffle lunch team",
       "fromEmail": "shuffle-lunch@simplymeasured.com",

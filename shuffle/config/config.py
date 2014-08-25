@@ -18,8 +18,3 @@ try:
 except ImportError:
     pass
 
-try:
-    from config_test import *
-except ImportError:
-    pass
-

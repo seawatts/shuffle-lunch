@@ -1,3 +1,4 @@
+from logging import getLogger, getLevelName
 import os
 import logging.config
 
@@ -14,4 +15,4 @@ def setup_logging(default_path='logging.yaml', default_level=logging.INFO):
         logging.config.dictConfig(config)
     else:
         logging.basicConfig(level=default_level)
-    print("Setup logging to " + str(default_level))
+    logging.info("Logging level: " + getLevelName(getLogger().getEffectiveLevel()))
