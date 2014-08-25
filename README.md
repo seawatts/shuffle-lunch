@@ -22,3 +22,16 @@ From responses to those emails, we create a list of people who are in for the cu
     bin/shuffler < current-lunch-emails.txt
 
 It will split the folks into teams of 4-6 members. Have fun!
+
+
+# Tests
+
+This project uses the nose python testing framework
+
+Install nose:
+
+`python setup.py install` or `pip install nose`
+
+Run from the root directory:
+
+`nosetests`
