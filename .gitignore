@@ -2,3 +2,7 @@ credentials.dat
 .iml
 .idea
 *local*
+*.pyc
+dist/
+build/
+shuffle_lunch.egg-info/
