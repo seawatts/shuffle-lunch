@@ -29,9 +29,14 @@ class EmailService:
 
     @staticmethod
     def __create_message_body(email_template_file):
-        email_template_file = os.path.join(os.path.dirname(config.__file__), email_template_file)
-        f = open(email_template_file)
-        body = f.read()
+        try:
+            email_template_file = os.path.join(os.path.dirname(config.__file__), email_template_file)
+            f = open(email_template_file)
+            body = f.read()
+        except IOError as error:
+            logging.error("Could not find the email template file. This is unrecoverable, please create a email template file and try again. %s" % error)
+            raise error
+
         return body
 
     @staticmethod
@@ -73,5 +78,5 @@ class EmailService:
             message = self.__email_api.messages.send(message=message)
             return message
         except Error as error:
-            print('An error occurred: %s' % error)
+            logging.error('An error occurred emailing a user: %s' % error)
             raise error

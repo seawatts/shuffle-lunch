@@ -1,5 +1,6 @@
 from datetime import datetime
 import logging
+from apiclient.http import HttpError
 from shuffle.models.user_model import UserModel
 
 
@@ -10,14 +11,24 @@ class CalendarService:
 
     def get_all_accepted_attendees(self, recurring_event_id, calendar_group_alias):
         # event_id = self.__compose_event_id(recurring_event_id)
-        event_id = recurring_event_id + "_" + "20140814T190000Z"
+        event_id = recurring_event_id
         logging.info("Getting all accepted users from event: " + event_id)
         all_accepted = []
-        users = self.__google_admin_api.members().list(groupKey=calendar_group_alias).execute()
+        try:
+            users = self.__google_admin_api.members().list(groupKey=calendar_group_alias).execute()
+        except HttpError as error:
+            logging.error("An error occurred when trying to get members from alias. This is unrecoverable, please check the alias and try again. %s" % error)
+            raise error
+
         logging.debug("Found " + str(len(users["members"])) + " in " + calendar_group_alias + " email alias")
         for user in users["members"]:
             user_email = user["email"]
-            event = self.__google_calendar_api.events().get(calendarId=user_email, eventId=event_id).execute()
+            try:
+                event = self.__google_calendar_api.events().get(calendarId=user_email, eventId=event_id).execute()
+            except HttpError as error:
+                logging.error("An error occurred when trying the event from the specified calendar. This is unrecoverable, please check the event id and try again. %s" % error)
+                raise error
+
             # If attendees is not present then the user has deleted the event from their calendar
             if "attendees" not in event:
                 continue

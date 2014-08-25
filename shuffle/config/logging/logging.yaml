@@ -16,12 +16,23 @@ handlers:
 
     syslog:
         class: logging.handlers.SysLogHandler
-        level: DEBUG
+        level: INFO
         formatter: syslog
         facility: local0
         address: "/dev/log"
 
+loggers:
+    apiclient:
+        level: ERROR
+        handlers: [console, syslog]
+    httplib2:
+            level: ERROR
+            handlers: [console, syslog]
+    oauth2client:
+            level: ERROR
+            handlers: [console, syslog]
+
 root:
-    level: DEBUG
+    level: INFO
     handlers: [console, syslog]
 ...
