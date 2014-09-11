@@ -32,4 +32,6 @@ class MockData:
 
         RANDOM_GROUPS.append(GroupModel(users))
 
-    GOOGLE_API_SERVICE = GoogleApiService()
+    @staticmethod
+    def google_api_service():
+        return GoogleApiService()

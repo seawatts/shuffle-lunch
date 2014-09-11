@@ -6,3 +6,4 @@ credentials.dat
 dist/
 build/
 shuffle_lunch.egg-info/
+groups/

@@ -1,5 +1,11 @@
+from datetime import datetime
+import json
 import logging
+import os
 import random
+import sys
+from shuffle.config import config
+from shuffle.encoders.object_encoder import ObjectEncoder
 
 from shuffle.models.group_model import GroupModel
 
@@ -37,17 +43,18 @@ class RandomizeService:
                 # This is for the last group
                 groups.append(GroupModel(group_members))
 
-        # RandomizeService.__write_groups_to_file(groups)
+        RandomizeService.__write_groups_to_file(groups)
         logging.info("Created " + str(len(groups)) + " groups")
         return groups
 
-    #
-    # @staticmethod
-    # def __write_groups_to_file(groups):
-    #     file_name = RandomizeService.__create_group_file_name()
-    #     for group in groups:
-    #         pass
-    #
+
+    @staticmethod
+    def __write_groups_to_file(groups):
+        file_path = RandomizeService.__get_group_file_path()
+
+        with open(file_path, 'w+') as outfile:
+            json.dump(groups, outfile, cls=ObjectEncoder, sort_keys=True, indent=2)
+
     # @staticmethod
     # def __read_groups_from_file():
     #     # read group
@@ -55,12 +62,22 @@ class RandomizeService:
     #
     #     return groups
 
-    # @staticmethod
-    # def __create_group_file_name():
-    #     current_date = datetime.utcnow().strftime("%Y%m%dT190000Z")
-    #     path = os.path.join(os.path.dirname(main.__file__), config.GROUPS_BASE_FILE_LOCATION)
-    #     full_path = os.path.join(path, config.GROUPS_BASE_FILE_NAME + "_" + current_date)
-    #     return full_path
+    @staticmethod
+    def __get_group_directory():
+        main_class_directory = os.path.dirname(sys.argv[0])
+        group_directory = os.path.join(main_class_directory, config.GROUPS_BASE_FILE_LOCATION)
+        if not os.path.exists(group_directory):
+            os.makedirs(group_directory)
+        return group_directory
+
+
+    @staticmethod
+    def __get_group_file_path():
+        group_directory = RandomizeService.__get_group_directory()
+        current_date = datetime.utcnow().strftime("%Y%m%dT190000Z")
+        final_file_name = current_date + ".json"
+        full_path = os.path.join(group_directory, final_file_name)
+        return full_path
 
     @staticmethod
     def __sort_users(users):

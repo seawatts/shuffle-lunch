@@ -11,7 +11,6 @@ MANDRILL_API_USER = "shuffle-lunch@simplymeasured.com"
 MANDRILL_API_KEY = "Nmnt3Dz99JV7XWSF4bWECg"
 
 GROUPS_BASE_FILE_LOCATION = "groups/"
-GROUPS_BASE_FILE_NAME = "groups"
 
 try:
     from config_local import *

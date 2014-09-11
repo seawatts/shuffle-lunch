@@ -3,6 +3,6 @@ from shuffle.services.calendar_service import CalendarService
 
 
 def test_get_all_accepted_users():
-    calendar_service = CalendarService(MockData.GOOGLE_API_SERVICE)
+    calendar_service = CalendarService(MockData.google_api_service())
     accepted_attendees = calendar_service.get_all_accepted_attendees("k3v5q8ion1adkil0fjl4nidtt4", "all@simplymeasured.com")
     assert len(accepted_attendees) is not 0

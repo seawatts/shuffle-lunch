@@ -5,13 +5,13 @@ formatters:
     console:
         format: "%(asctime)s-[%(levelname)s]-(%(module)s:%(funcName)s:%(lineno)d)--%(message)s"
     syslog:
-        format: "compton[%(process)d]: (%(module)s)--%(message)s"
+        format: "shuffle-lunch[%(process)d]: (%(module)s)--%(message)s"
 
 handlers:
     console:
         class: logging.StreamHandler
         level: DEBUG
-        formatter: syslog
+        formatter: console
         stream: ext://sys.stdout
 
     syslog:
