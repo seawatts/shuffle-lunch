@@ -34,7 +34,7 @@ class EmailService:
             f = open(email_template_file)
             body = f.read()
         except IOError as error:
-            logging.error("Could not find the email template file. This is unrecoverable, please create a email template file and try again. %s" % error)
+            logging.error("Could not find the email template file. This is unrecoverable, please create a email template file and try again. {0}".format(error))
             raise error
 
         return body
@@ -78,5 +78,5 @@ class EmailService:
             message = self.__email_api.messages.send(message=message)
             return message
         except Error as error:
-            logging.error('An error occurred emailing a user: %s' % error)
+            logging.error('An error occurred emailing a user: {0}'.format(error))
             raise error

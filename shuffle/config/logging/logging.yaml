@@ -24,18 +24,18 @@ handlers:
 loggers:
     apiclient:
         level: ERROR
-        handlers: [console, syslog]
+        handlers: [console]
     httplib2:
             level: ERROR
-            handlers: [console, syslog]
+            handlers: [console]
     oauth2client:
             level: ERROR
-            handlers: [console, syslog]
+            handlers: [console]
     mandrill:
             level: ERROR
-            handlers: [console, syslog]
+            handlers: [console]
 
 root:
     level: INFO
-    handlers: [console, syslog]
+    handlers: [console]
 ...

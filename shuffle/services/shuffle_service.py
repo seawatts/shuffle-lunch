@@ -2,8 +2,6 @@ import json
 import logging
 import os
 
-from oauth2client import client
-
 from shuffle.config import config
 from shuffle.models.shuffle_config_model import ShuffleModel
 from shuffle.services.calendar_service import CalendarService
@@ -28,7 +26,7 @@ class ShuffleService:
             shuffles = json.load(shuffle_file_data)
             shuffle_file_data.close()
         except IOError as error:
-            logging.error("Could not find the shuffle config file. This is unrecoverable, please create a shuffle config file and try again. %s" % error)
+            logging.error("Could not find the shuffle config file. This is unrecoverable, please create a shuffle config file and try again. {0}".format(error))
             raise error
 
         shuffle_models = []
@@ -37,7 +35,7 @@ class ShuffleService:
                 shuffle_model = ShuffleModel.from_json(shuffle)
                 shuffle_models.append(shuffle_model)
             except IOError as error:
-                logging.error("Could not read the shuffle config file. This is unrecoverable, please check syntax of shuffle config file and try again. %s" % error)
+                logging.error("Could not read the shuffle config file. This is unrecoverable, please check syntax of shuffle config file and try again. {0}".format(error))
                 raise error
 
         return shuffle_models
@@ -46,13 +44,13 @@ class ShuffleService:
         try:
             all_accepted = self.__calendar_service.get_all_accepted_attendees(shuffle.recurring_event_id, shuffle.calendar_group_alias)
         except Exception as error:
-            logging.error("Could not execute getting all accepted attendees. This is unrecoverable, please check configuration and try again. %s" % error)
+            logging.error("Could not execute getting all accepted attendees. This is unrecoverable, please check configuration and try again. {0}".format(error))
             return
 
         try:
             randomized_groups = self.__randomize_service.create_randomize_groups(all_accepted, shuffle.group_size)
         except Exception as error:
-            logging.error("Could not create randomized groups. This is unrecoverable, please check configuration and try again. %s" % error)
+            logging.error("Could not create randomized groups. This is unrecoverable, please check configuration and try again. {0}".format(error))
             return
 
         # Don't email the users if we are in a dev environment
@@ -60,13 +58,25 @@ class ShuffleService:
             return
 
         try:
+            RandomizeService.write_groups_to_file(shuffle.name, randomized_groups)
+        except Exception as error:
+            logging.error("Could not write groups to file. This is unrecoverable, please check configuration and try again. {0}".format(error))
+            return
+
+        try:
             self.__email_service.send_emails_to_groups_with_template(randomized_groups, shuffle.email_model.from_email, shuffle.email_model.subject, shuffle.email_model.template)
         except Exception as error:
-            logging.error("Could not execute sending emails to groups. This is unrecoverable, please check configuration and try again. %s" % error)
+            logging.error("Could not execute sending emails to groups. This is unrecoverable, please check configuration and try again. {0}".format(error))
             return
 
     def execute(self, is_dev_environment=False):
         for shuffle in self.__shuffle_models:
-            logging.info("Executing shuffle: " + shuffle.name)
+            shuffle.recurring_event_id = self.__calendar_service.get_today_event_id(shuffle.recurring_event_id)
+            if not shuffle.recurring_event_id:
+                logging.info("Shuffle calendar event '{0}' does not exist. Skipping...".format(shuffle.name))
+                continue
+
+            logging.info("Executing shuffle '{0}'".format(shuffle.name))
             self.__execute_shuffle(shuffle, is_dev_environment)
-            logging.info("Finished executing shuffle: " + shuffle.name)
+            logging.info("Finished executing shuffle'{0}'".format(shuffle.name))
+        logging.info("Finished all shuffles")

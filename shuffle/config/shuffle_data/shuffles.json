@@ -9,6 +9,21 @@
     },
     "groupSize": 5,
     "calendarGroupAlias": "all@simplymeasured.com",
-    "recurringEventId": "k3v5q8ion1adkil0fjl4nidtt4"
+    "recurringEventId": "k3v5q8ion1adkil0fjl4nidtt4",
+    "event_owner_id": "cwatts@simplymeasured.com"
+  },
+  {
+    "name": "Shuffle Coffee",
+    "email": {
+      "subject": "Your shuffle coffee team",
+      "fromEmail": "shuffle-lunch@simplymeasured.com",
+      "fromName": "Shuffle Coffee",
+      "template": "shuffle_data/email_templates/shuffle_coffee_template.txt"
+    },
+    "groupSize": 3,
+    "calendarGroupAlias": "all@simplymeasured.com",
+    "recurringEventId": "9edtu1domek7mc7n1pqt33vb78",
+    "event_owner_id": "lisa@simplymeasured.com"
+
   }
 ]

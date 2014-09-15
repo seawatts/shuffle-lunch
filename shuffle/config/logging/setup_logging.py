@@ -15,8 +15,8 @@ def setup_logging(default_path='logging.yaml', default_level=logging.INFO):
                 config = yaml.load(f.read())
             logging.config.dictConfig(config)
         except IOError as error:
-            logging.error("Could not read logging file. This is unrecoverable, please create a logging file and try again. %s" % error)
+            logging.error("Could not read logging file. This is unrecoverable, please create a logging file and try again. {0}".format(error))
             return
     else:
         logging.basicConfig(level=default_level)
-    logging.info("Logging level: " + getLevelName(getLogger().getEffectiveLevel()))
+    logging.info("Logging level: {0}".format(getLevelName(getLogger().getEffectiveLevel())))

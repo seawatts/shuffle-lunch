@@ -25,14 +25,14 @@ class GoogleApiService:
         try:
             client_secrets_file = open(os.path.join(os.path.dirname(config.__file__), config.CLIENT_SECRETS_FILE))
         except IOError as error:
-            logging.error("Could not find the client secret file. This is unrecoverable, please create a client secrets file and try again. %s" % error)
+            logging.error("Could not find the client secret file. This is unrecoverable, please create a client secrets file and try again. {0}".format(error))
             raise error
 
         try:
             client_secrets = json.load(client_secrets_file)
             client_secrets_file.close()
         except IOError as error:
-            logging.error("Could not read the client secret file. This is unrecoverable, please fix the client secrets file and try again. %s" % error)
+            logging.error("Could not read the client secret file. This is unrecoverable, please fix the client secrets file and try again. {0}".format(error))
             raise error
 
         credentials = SignedJwtAssertionCredentials(client_secrets["client_email"], client_secrets["private_key"], scope=client_secrets["scopes"], sub="cwatts@simplymeasured.com")
@@ -43,7 +43,7 @@ class GoogleApiService:
             http = httplib2.Http()
             http = credentials.authorize(http)
         except HttpError as error:
-            logging.error("An error occurred when trying to authenticate to google. This is unrecoverable, please check the google authentication and try again. %s" % error)
+            logging.error("An error occurred when trying to authenticate to google. This is unrecoverable, please check the google authentication and try again. {0}".format(error))
             raise error
 
         self.set_calendar_api(http)
@@ -53,12 +53,12 @@ class GoogleApiService:
         try:
             self.calendar = discovery.build(config.CALENDAR_API_NAME, config.CALENDAR_API_VERSION, http=http)
         except HttpError as error:
-            logging.error("An error occurred when trying to build the calendar google api. This is unrecoverable, please check the google authentication and try again. %s" % error)
+            logging.error("An error occurred when trying to build the calendar google api. This is unrecoverable, please check the google authentication and try again. {0}".format(error))
             raise error
 
     def set_admin_api(self, http):
         try:
             self.admin = discovery.build(config.ADMIN_API_NAME, config.ADMIN_API_VERSION, http=http)
         except HttpError as error:
-            logging.error("An error occurred when trying to build the admin google api. This is unrecoverable, please check the google authentication and try again. %s" % error)
+            logging.error("An error occurred when trying to build the admin google api. This is unrecoverable, please check the google authentication and try again. {0}".format(error))
             raise error

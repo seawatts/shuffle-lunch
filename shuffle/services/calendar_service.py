@@ -1,6 +1,8 @@
 from datetime import datetime
 import logging
+
 from apiclient.http import HttpError
+
 from shuffle.models.user_model import UserModel
 
 
@@ -9,23 +11,45 @@ class CalendarService:
         self.__google_calendar_api = google_api_service.calendar
         self.__google_admin_api = google_api_service.admin
 
+    def get_today_event_id(self, recurring_event_id):
+        logging.debug("Getting today's event id {0}".format(recurring_event_id))
+        try:
+            while True:
+                page_token = None
+                events = self.__google_calendar_api.events().instances(calendarId='primary', eventId=recurring_event_id, pageToken=page_token).execute()
+                today_date = datetime.today().date()
+                for event in events['items']:
+                    start_date = event['start']["dateTime"]
+                    stripped_start_date = start_date[:10]
+                    event_date = datetime.strptime(stripped_start_date, "%Y-%m-%d").date()
+                    if event_date > today_date:
+                        return None
+                    elif event_date == today_date:
+                        logging.debug("Found event id {0} for today {1}".format(str(event["id"]),  str(event_date)))
+                        return event["id"]
+                page_token = events.get('nextPageToken')
+                if not page_token:
+                    break
+        except HttpError:
+            return None
+        return None
+
     def get_all_accepted_attendees(self, recurring_event_id, calendar_group_alias):
-        event_id = self.__compose_event_id(recurring_event_id)
-        logging.info("Getting all accepted users from event: " + event_id)
+        logging.info("Getting all accepted users from event")
         all_accepted = []
         try:
             users = self.__google_admin_api.members().list(groupKey=calendar_group_alias).execute()
         except HttpError as error:
-            logging.error("An error occurred when trying to get members from alias. This is unrecoverable, please check the alias and try again. %s" % error)
+            logging.error("An error occurred when trying to get members from alias. This is unrecoverable, please check the alias and try again. {0}".format(error))
             raise error
 
-        logging.debug("Found " + str(len(users["members"])) + " in " + calendar_group_alias + " email alias")
+        logging.debug("Found {0} in {1} email alias".format(str(len(users["members"])), calendar_group_alias))
         for user in users["members"]:
             user_email = user["email"]
             try:
-                event = self.__google_calendar_api.events().get(calendarId=user_email, eventId=event_id).execute()
+                event = self.__google_calendar_api.events().get(calendarId=user_email, eventId=recurring_event_id).execute()
             except HttpError as error:
-                logging.error("An error occurred when trying the event from the specified calendar. This is unrecoverable, please check the event id and try again. %s" % error)
+                logging.error("An error occurred when trying the event from the specified calendar. {0}".format(error))
                 raise error
 
             # If attendees is not present then the user has deleted the event from their calendar
@@ -37,17 +61,10 @@ class CalendarService:
             if accepted is not None:
                 user_model = UserModel(accepted["email"])
                 all_accepted.append(user_model)
-                logging.debug(user_model.get_email() + " accepted event")
+                logging.debug("{0} accepted event".format(user_model.get_email()))
 
-        logging.info(str(len(all_accepted)) + " users accepted the event")
+        logging.info("{0} users accepted the event".format(str(len(all_accepted))))
         return all_accepted
-
-    @staticmethod
-    def __compose_event_id(recurring_event_id):
-        current_date = datetime.utcnow().strftime("%Y%m%dT190000Z")
-        event_id = recurring_event_id + "_" + current_date
-        logging.debug("Event id: " + event_id)
-        return event_id
 
     @staticmethod
     def __get_accepted_attendee(users_email, attendees):
@@ -57,6 +74,5 @@ class CalendarService:
                 response_status = attendee['responseStatus']
                 if response_status == 'accepted':
                     return attendee
-
 
         return None
