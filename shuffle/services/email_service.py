@@ -2,42 +2,49 @@ import logging
 import os
 
 from mandrill import Mandrill, Error
+import pystache
 
 from shuffle.config import config
+from shuffle.services.gravatar_service import GravatarService
 
 
 class EmailService:
     def __init__(self):
         self.__email_api = Mandrill(config.MANDRILL_API_KEY)
 
-    def send_emails_to_groups(self, randomized_groups, email_from, email_subject, email_body):
+    def send_emails_to_groups_with_template(self, randomized_groups, email_from, email_subject, email_template_file):
         logging.info("Emailing groups")
         for group in randomized_groups:
             recipients = []
+            gravatar_links = {"recipients": []}
             for user in group.get_members():
                 recipients.append({
                     "email": user.get_email(),
-                    "type": "to"
+                    "type": "to",
                 })
 
+                gravatar_links["recipients"].append({
+                    "gravatar_link": GravatarService.get_gravatar_link(user.get_email())
+                })
+
+            email_body = self.__create_message_body(email_template_file, gravatar_links)
             message = self.__create_message(email_from, recipients, email_subject, email_body)
             # By sending from 'me' it will send the message as the currently authenticated user
             self.__send_message(message)
 
-    def send_emails_to_groups_with_template(self, randomized_groups, email_from, email_subject, email_template_file):
-        self.send_emails_to_groups(randomized_groups, email_from, email_subject, self.__create_message_body(email_template_file))
 
     @staticmethod
-    def __create_message_body(email_template_file):
+    def __create_message_body(email_template_file, recipients):
         try:
             email_template_file = os.path.join(os.path.dirname(config.__file__), email_template_file)
             f = open(email_template_file)
-            body = f.read()
+            template_body = f.read()
+            template_body = pystache.render(template_body, recipients)
         except IOError as error:
             logging.error("Could not find the email template file. This is unrecoverable, please create a email template file and try again. {0}".format(error))
             raise error
 
-        return body
+        return template_body
 
     @staticmethod
     def __create_message(sender, recipients, subject, message_text):
@@ -56,7 +63,7 @@ class EmailService:
             "to": recipients,
             "from_email": sender,
             "subject": subject,
-            "text": message_text
+            "html": message_text,
         }
 
         return message
