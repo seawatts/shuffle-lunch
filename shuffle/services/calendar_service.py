@@ -17,6 +17,7 @@ class CalendarService:
             while True:
                 page_token = None
                 events = self.__google_calendar_api.events().instances(calendarId='primary', eventId=recurring_event_id, pageToken=page_token).execute()
+                # event = self.__google_calendar_api.events().get(calendarId='lisa@simplymeasured.com', eventId=recurring_event_id).execute()
                 today_date = datetime.today().date()
                 for event in events['items']:
                     start_date = event['start']["dateTime"]
@@ -27,10 +28,11 @@ class CalendarService:
                     elif event_date == today_date:
                         logging.debug("Found event id {0} for today {1}".format(str(event["id"]),  str(event_date)))
                         return event["id"]
-                page_token = events.get('nextPageToken')
+                    page_token = events.get('nextPageToken')
                 if not page_token:
                     break
-        except HttpError:
+        except HttpError as error:
+            logging.debug("HTTP error getting calendar event: {0}".format(error))
             return None
         return None
 

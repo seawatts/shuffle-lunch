@@ -4,8 +4,8 @@ disable_existing_loggers: False
 formatters:
     console:
         format: "%(asctime)s-[%(levelname)s]-(%(module)s:%(funcName)s:%(lineno)d)--%(message)s"
-    syslog:
-        format: "shuffle-lunch[%(process)d]: (%(module)s)--%(message)s"
+#    syslog:
+#        format: "shuffle-lunch[%(process)d]: (%(module)s)--%(message)s"
 
 handlers:
     console:
@@ -14,12 +14,12 @@ handlers:
         formatter: console
         stream: ext://sys.stdout
 
-    syslog:
-        class: logging.handlers.SysLogHandler
-        level: INFO
-        formatter: syslog
-        facility: local0
-        address: "/dev/log"
+#    syslog:
+#        class: logging.handlers.SysLogHandler
+#        level: INFO
+#        formatter: syslog
+#        facility: local0
+#        address: "/dev/log"
 
 loggers:
     apiclient:
@@ -36,6 +36,6 @@ loggers:
             handlers: [console]
 
 root:
-    level: INFO
+    level: DEBUG
     handlers: [console]
 ...
