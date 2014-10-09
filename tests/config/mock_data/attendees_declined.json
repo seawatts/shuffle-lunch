@@ -1,0 +1,40 @@
+{
+  "attendees": [
+    {
+      "email": "cwatts@simplymeasured.com",
+      "responseStatus": "declined"
+    },
+    {
+      "email": "test1@simplymeasured.com",
+      "responseStatus": "declined"
+    },
+    {
+      "email": "test2@simplymeasured.com",
+      "responseStatus": "declined"
+    },
+    {
+      "email": "test3@simplymeasured.com",
+      "responseStatus": "declined"
+    },
+    {
+      "email": "test4@simplymeasured.com",
+      "responseStatus": "declined"
+    },
+    {
+      "email": "test5@simplymeasured.com",
+      "responseStatus": "declined"
+    },
+    {
+      "email": "test6@simplymeasured.com",
+      "responseStatus": "declined"
+    },
+    {
+      "email": "test7@simplymeasured.com",
+      "responseStatus": "declined"
+    },
+    {
+      "email": "test8@simplymeasured.com",
+      "responseStatus": "declined"
+    }
+  ]
+}

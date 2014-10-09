@@ -1,0 +1,40 @@
+[
+  {
+    "members": [
+      {
+        "email": "cwatts@simplymeasured.com"
+      },
+      {
+        "email": "test123@gmail.com"
+      },
+      {
+        "email": "test123@gmail.com"
+      },
+      {
+        "email": "teset123@gmail.com"
+      },
+      {
+        "email": "teset123@gmail.com"
+      }
+        ]
+  },
+  {
+    "members": [
+      {
+        "email": "testtesttest@simplymeasured.com"
+      },
+      {
+        "email": "teset123@gmail.com"
+      },
+      {
+        "email": "teset123@gmail.com"
+      },
+      {
+        "email": "teset123@gmail.com"
+      },
+      {
+        "email": "teset123@gmail.com"
+      }
+    ]
+  }
+]
