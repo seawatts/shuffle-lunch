@@ -5,7 +5,7 @@
       "subject": "Your shuffle lunch team",
       "fromEmail": "shuffle-lunch@simplymeasured.com",
       "fromName": "Shuffle Lunch",
-      "template": "shuffle_data/email_templates/shuffle_test_template.mustache"
+      "template": "test"
     },
     "groupSize": 5,
     "calendarGroupAlias": "all@simplymeasured.com",

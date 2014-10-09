@@ -1,0 +1,35 @@
+---
+version: 1
+disable_existing_loggers: False
+formatters:
+    console:
+        format: "%(asctime)s-[%(levelname)s]-(%(module)s:%(funcName)s:%(lineno)d)--%(message)s"
+
+handlers:
+    console:
+        class: logging.StreamHandler
+        level: INFO
+        formatter: console
+        stream: ext://sys.stdout
+
+loggers:
+    apiclient:
+        level: ERROR
+        handlers: [console]
+    httplib2:
+            level: ERROR
+            handlers: [console]
+    oauth2client:
+            level: ERROR
+            handlers: [console]
+    mandrill:
+            level: ERROR
+            handlers: [console]
+    urllib3:
+            level: ERROR
+            handlers: [console]
+
+root:
+    level: INFO
+    handlers: [console]
+...

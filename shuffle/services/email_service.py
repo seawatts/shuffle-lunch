@@ -12,7 +12,7 @@ class EmailService:
     def __init__(self):
         self.__email_api = Mandrill(config.MANDRILL_API_KEY)
 
-    def send_emails_to_groups_with_template(self, randomized_groups, email_from, email_subject, email_template_file):
+    def send_emails_to_groups_with_template(self, shuffle, randomized_groups):
         logging.info("Emailing groups")
         for group in randomized_groups:
             recipients = []
@@ -25,11 +25,12 @@ class EmailService:
 
                 template_recipients["recipients"].append({
                     "gravatar_link": GravatarService.get_gravatar_link(user.get_email()),
-                    "email": user.get_email()
+                    "email": user.get_email(),
+                    "shuffle_name": shuffle.name
                 })
 
-            email_body = self.__create_message_body(email_template_file, template_recipients)
-            message = self.__create_message(email_from, recipients, email_subject, email_body)
+            email_body = self.__create_message_body(shuffle.email_model.template, template_recipients)
+            message = self.__create_message(shuffle.email_model.from_email, recipients, shuffle.email_model.subject, email_body)
             # By sending from 'me' it will send the message as the currently authenticated user
             self.__send_message(message)
 
@@ -37,10 +38,8 @@ class EmailService:
     @staticmethod
     def __create_message_body(email_template_file, recipients):
         try:
-            email_template_file = os.path.join(os.path.dirname(config.__file__), email_template_file)
-            f = open(email_template_file)
-            template_body = f.read()
-            template_body = pystache.render(template_body, recipients)
+            renderer = pystache.Renderer(search_dirs=config.EMAIL_TEMPLATES_FOLDER, partials={"header":"header.mustache", "footer":"footer.mustache"})
+            template_body = renderer.render_name(email_template_file, recipients)
         except IOError as error:
             logging.error("Could not find the email template file. This is unrecoverable, please create a email template file and try again. {0}".format(error))
             raise error

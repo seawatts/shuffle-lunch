@@ -1,7 +1,11 @@
+from shuffle.models.email_model import EmailModel
+from shuffle.models.shuffle_config_model import ShuffleModel
 from shuffle.services.email_service import EmailService
-from tests.mock_data.mock_data import MockData
+from tests.config.mock_data.mock_data import MockData
 
 
-def test_get_all_accepted_users():
+def test_email_users():
     email_service = EmailService()
-    email_service.send_emails_to_groups_with_template(MockData.RANDOM_GROUPS, "shuffle-lunch@simplymeasured.com", "my mock test", "shuffle_data/email_templates/shuffle_test_template.mustache")
+    email_model = EmailModel("my mock test", "shuffle-lunch@simplymeasured.com", "shuffle lunch", "test")
+    shuffle = ShuffleModel(email_model, 5, "", "", "Shuffle Lunch Test", "")
+    email_service.send_emails_to_groups_with_template(shuffle, MockData.RANDOM_GROUPS)

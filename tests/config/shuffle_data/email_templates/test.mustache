@@ -1,0 +1,22 @@
+{{> header}}
+<div>
+  You all are on a {{shuffle_name}} team together!
+  Feel free to reply all to select a place.
+  Have fun!
+</div>
+<br/>
+<div>
+<ul>
+  {{#recipients}}
+    <li style="display: inline-block; width: 120px; margin: 0;">
+      <ul>
+        <li style="display: block;"><img src="{{gravatar_link}}"/></li>
+        <li style="display: block;">{{email}}</li>
+      </ul>
+    </li>
+  {{/recipients}}
+</ul>
+</div>
+
+<!--TODO: Have an unsubscribe function that points to the calendar event-->
+{{> footer}}

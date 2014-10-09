@@ -4,5 +4,6 @@ credentials.dat
 *local*
 *.pyc
 dist/
+tmp/
 build/
 shuffle_lunch.egg-info/

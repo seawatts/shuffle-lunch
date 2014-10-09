@@ -64,7 +64,7 @@ class ShuffleService:
             return
 
         try:
-            self.__email_service.send_emails_to_groups_with_template(randomized_groups, shuffle.email_model.from_email, shuffle.email_model.subject, shuffle.email_model.template)
+            self.__email_service.send_emails_to_groups_with_template(shuffle, randomized_groups)
         except Exception as error:
             logging.error("Could not execute sending emails to groups. This is unrecoverable, please check configuration and try again. {0}".format(error))
             return
