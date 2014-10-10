@@ -16,21 +16,21 @@ class CalendarService:
         try:
             while True:
                 page_token = None
-                events = self.__google_calendar_api.events().instances(calendarId='primary', eventId=recurring_event_id, pageToken=page_token).execute()
-                # event = self.__google_calendar_api.events().get(calendarId='lisa@simplymeasured.com', eventId=recurring_event_id).execute()
+                # events = self.__google_calendar_api.events().instances(calendarId='primary', eventId=recurring_event_id, pageToken=page_token).execute()
+                event = self.__google_calendar_api.events().get(calendarId='lisa@simplymeasured.com', eventId=recurring_event_id).execute()
                 today_date = datetime.today().date()
-                for event in events['items']:
-                    start_date = event['start']["dateTime"]
-                    stripped_start_date = start_date[:10]
-                    event_date = datetime.strptime(stripped_start_date, "%Y-%m-%d").date()
-                    if event_date > today_date:
-                        return None
-                    elif event_date == today_date:
-                        logging.debug("Found event id {0} for today {1}".format(str(event["id"]),  str(event_date)))
-                        return event["id"]
-                    page_token = events.get('nextPageToken')
-                if not page_token:
-                    break
+                # for event in events['items']:
+                start_date = event['start']["dateTime"]
+                stripped_start_date = start_date[:10]
+                event_date = datetime.strptime(stripped_start_date, "%Y-%m-%d").date()
+                if event_date > today_date:
+                    return None
+                elif event_date == today_date:
+                    logging.debug("Found event id {0} for today {1}".format(str(event["id"]),  str(event_date)))
+                    return event["id"]
+                    # page_token = events.get('nextPageToken')
+                # if not page_token:
+                #     break
         except HttpError as error:
             logging.debug("HTTP error getting calendar event: {0}".format(error))
             return None
