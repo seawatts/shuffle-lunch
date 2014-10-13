@@ -1,5 +1,5 @@
 from shuffle.encoders.object_encoder import ObjectEncoder
-from tests.mock_data.mock_data import MockData
+from tests.config.mock_data.mock_data import MockData
 
 
 def test_encoding_list():

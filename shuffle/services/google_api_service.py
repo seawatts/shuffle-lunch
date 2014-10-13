@@ -52,13 +52,13 @@ class GoogleApiService:
     def set_calendar_api(self, http):
         try:
             self.calendar = discovery.build(config.CALENDAR_API_NAME, config.CALENDAR_API_VERSION, http=http)
-        except HttpError as error:
+        except Exception as error:
             logging.error("An error occurred when trying to build the calendar google api. This is unrecoverable, please check the google authentication and try again. {0}".format(error))
             raise error
 
     def set_admin_api(self, http):
         try:
             self.admin = discovery.build(config.ADMIN_API_NAME, config.ADMIN_API_VERSION, http=http)
-        except HttpError as error:
+        except Exception as error:
             logging.error("An error occurred when trying to build the admin google api. This is unrecoverable, please check the google authentication and try again. {0}".format(error))
             raise error

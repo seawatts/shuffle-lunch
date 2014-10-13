@@ -1,4 +1,4 @@
-from tests.mock_data.mock_data import MockData
+from tests.config.mock_data.mock_data import MockData
 from shuffle.services.calendar_service import CalendarService
 
 

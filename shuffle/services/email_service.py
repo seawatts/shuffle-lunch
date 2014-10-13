@@ -1,5 +1,4 @@
 import logging
-import os
 
 from mandrill import Mandrill, Error
 import pystache

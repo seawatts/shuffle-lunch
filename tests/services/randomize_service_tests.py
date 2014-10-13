@@ -1,5 +1,5 @@
 from shuffle.services.randomize_service import RandomizeService
-from tests.mock_data.mock_data import MockData
+from tests.config.mock_data.mock_data import MockData
 
 
 def test_get_random_groups():

@@ -17,8 +17,3 @@ MANDRILL_API_USER = "shuffle-lunch@simplymeasured.com"
 MANDRILL_API_KEY = "Nmnt3Dz99JV7XWSF4bWECg"
 
 GROUPS_BASE_FILE_LOCATION = os.path.join(__current_dir, "groups")
-
-try:
-    from tests.config.config_test import *
-except ImportError:
-    pass

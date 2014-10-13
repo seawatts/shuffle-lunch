@@ -1,7 +1,3 @@
-import argparse
-
-from oauth2client import tools
-
 from shuffle.services.google_api_service import GoogleApiService
 
 

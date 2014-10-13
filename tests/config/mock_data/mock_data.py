@@ -33,5 +33,5 @@ class MockData:
         RANDOM_GROUPS.append(GroupModel(users))
 
     @staticmethod
-    def google_api_service():
-        return GoogleApiService()
+    def google_api_service(authenticate_now=True):
+        return GoogleApiService(authenticate_now)
