@@ -4,6 +4,7 @@ httplib2==0.8
 pyyaml==3.11
 simplejson==3.3.2
 oauth2client==1.2
+pyopenssl==0.14
 google-api-python-client==1.2
 mandrill==1.0.56
 pystache==0.5.4

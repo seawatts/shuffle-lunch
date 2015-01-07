@@ -52,7 +52,7 @@ class CalendarService:
                 event = self.__google_calendar_api.events().get(calendarId=user_email, eventId=recurring_event_id).execute()
             except HttpError as error:
                 logging.error("An error occurred when trying the event from the specified calendar. {0}".format(error))
-                raise error
+                continue
 
             # If attendees is not present then the user has deleted the event from their calendar
             if "attendees" not in event:
